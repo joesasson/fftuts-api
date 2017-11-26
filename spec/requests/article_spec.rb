@@ -81,8 +81,7 @@ RSpec.describe "Article API", type: :request do
       before { put "/v1/articles/#{article_id}", params: valid_attributes }
 
       it "updates the record" do
-        binding.pry
-        expect(response).to be_empty
+        expect(response.body).to be_empty
       end
 
       it "returns status code 204" do
@@ -93,6 +92,10 @@ RSpec.describe "Article API", type: :request do
 
   describe "DELETE /v1/articles/:id" do
     before { delete "/v1/articles/#{article_id}" }
+
+    it "deletes the record" do
+      expect(Article.first.id).not_to eq(article_id)
+    end
 
     it "returns status code 204" do
       expect(response).to have_http_status(204)
